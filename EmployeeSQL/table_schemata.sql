@@ -7,13 +7,21 @@ CREATE TABLE "departments" (
 );
 
 CREATE TABLE "dept_employees" (
+    "dep_emp_id" serial   NOT NULL,
+    "dept_no" VARCHAR(20)   NOT NULL,
     "emp_no" INT   NOT NULL,
-    "dept_no" VARCHAR(20)   NOT NULL
+    CONSTRAINT "pk_dept_employees" PRIMARY KEY (
+        "dep_emp_id"
+     )
 );
 
 CREATE TABLE "dept_manager" (
+    "dept_man_id" serial   NOT NULL,
     "dept_no" VARCHAR(20)   NOT NULL,
-    "emp_no" INT   NOT NULL
+    "emp_no" INT   NOT NULL,
+    CONSTRAINT "pk_dept_manager" PRIMARY KEY (
+        "dept_man_id"
+     )
 );
 
 CREATE TABLE "employees" (
@@ -30,8 +38,12 @@ CREATE TABLE "employees" (
 );
 
 CREATE TABLE "salaries" (
+    "salary_id" serial   NOT NULL,
     "emp_no" INT   NOT NULL,
-    "salary" INT   NOT NULL
+    "salary" INT   NOT NULL,
+    CONSTRAINT "pk_salaries" PRIMARY KEY (
+        "salary_id"
+     )
 );
 
 CREATE TABLE "title" (
@@ -42,11 +54,11 @@ CREATE TABLE "title" (
      )
 );
 
-ALTER TABLE "dept_employees" ADD CONSTRAINT "fk_dept_employees_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
-
 ALTER TABLE "dept_employees" ADD CONSTRAINT "fk_dept_employees_dept_no" FOREIGN KEY("dept_no")
 REFERENCES "departments" ("dept_no");
+
+ALTER TABLE "dept_employees" ADD CONSTRAINT "fk_dept_employees_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
 
 ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_dept_no" FOREIGN KEY("dept_no")
 REFERENCES "departments" ("dept_no");
@@ -59,6 +71,7 @@ REFERENCES "title" ("title_id");
 
 ALTER TABLE "salaries" ADD CONSTRAINT "fk_salaries_emp_no" FOREIGN KEY("emp_no")
 REFERENCES "employees" ("emp_no");
+
 
 -- Import tables in the following order
 SELECT * FROM public.departments
